@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Global Education Connect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f4f7fb;color:#222}
+header{background:#062b63;color:white;padding:18px 6%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:99}
+.logo{font-size:25px;font-weight:bold}
+nav a{color:white;text-decoration:none;margin:0 10px;font-weight:bold}
+.hero{background:linear-gradient(rgba(6,43,99,.85),rgba(6,43,99,.85)),url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1');background-size:cover;background-position:center;color:white;text-align:center;padding:90px 20px}
+.hero h1{font-size:48px;margin-bottom:15px}
+.hero p{font-size:18px;margin-bottom:25px}
+.search{background:white;max-width:1100px;margin:auto;padding:20px;border-radius:14px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px}
+.search input,.search select{padding:14px;border:1px solid #ddd;border-radius:8px}
+button{background:#ff9f1c;color:white;border:none;padding:14px 22px;border-radius:8px;font-weight:bold;cursor:pointer}
+section{padding:55px 6%}
+.title{text-align:center;margin-bottom:30px}
+.title h2{font-size:34px;color:#062b63}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.card{background:white;padding:22px;border-radius:14px;box-shadow:0 5px 18px rgba(0,0,0,.08)}
+.card h3{color:#062b63;margin-bottom:10px}
+.badge{display:inline-block;background:#e8f1ff;color:#062b63;padding:6px 10px;border-radius:20px;font-size:13px;margin:4px}
+.rating{color:#ff9f1c;font-weight:bold}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
+.stat{background:#062b63;color:white;padding:25px;border-radius:14px;text-align:center}
+.stat h2{font-size:35px}
+form{background:white;max-width:750px;margin:auto;padding:30px;border-radius:14px;box-shadow:0 5px 18px rgba(0,0,0,.08)}
+form input,form select,form textarea{width:100%;padding:14px;margin:10px 0;border:1px solid #ddd;border-radius:8px}
+.compare{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
+.compare select{padding:14px;min-width:260px;border-radius:8px;border:1px solid #ddd}
+footer{background:#041d44;color:white;text-align:center;padding:35px}
+.admin{background:#fff3df;border-left:5px solid #ff9f1c}
+.pagination{text-align:center;margin-top:30px}
+.pagination button{margin:5px}
+@media(max-width:900px){
+.search{grid-template-columns:1fr}
+header{flex-direction:column;gap:12px}
+nav{text-align:center}
+nav a{display:inline-block;margin:6px}
+.hero h1{font-size:32px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">Global Education Connect</div>
+<nav>
+<a href="#home">Home</a>
+<a href="#colleges">Colleges</a>
+<a href="#courses">Courses</a>
+<a href="#admission">Admission</a>
+<a href="#login">Login</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<div class="hero" id="home">
+<h1>Find Best Colleges Across India</h1>
+<p>Search colleges, universities, courses, admissions, scholarships and reviews.</p>
+
+<div class="search">
+<input id="keyword" placeholder="Search college, course, city, state">
+<select id="stateFilter"><option value="">All States</option></select>
+<select id="cityFilter"><option value="">All Cities</option></select>
+<select id="courseFilter"><option value="">All Courses</option></select>
+<button onclick="searchColleges()">Search</button>
+</div>
+</div>
+
+<section>
+<div class="stats">
+<div class="stat"><h2 id="totalCollege">0</h2><p>Colleges</p></div>
+<div class="stat"><h2>36</h2><p>States & UTs</p></div>
+<div class="stat"><h2>120+</h2><p>Cities</p></div>
+<div class="stat"><h2>50+</h2><p>Courses</p></div>
+</div>
+</section>
+
+<section>
+<div class="title">
+<h2>Explore Categories</h2>
+<p>Choose your education path</p>
+</div>
+<div class="grid">
+<div class="card"><h3>College Search</h3><p>Find colleges by city, state, course, fees and rating.</p></div>
+<div class="card"><h3>University Search</h3><p>Explore government, private and deemed universities.</p></div>
+<div class="card"><h3>Course Search</h3><p>Search B.Tech, MBA, MBBS, BBA, B.Com, BA and more.</p></div>
+<div class="card"><h3>Scholarships</h3><p>Find merit, need-based and sports scholarships.</p></div>
+</div>
+</section>
+
+<section id="colleges">
+<div class="title">
+<h2>All India Colleges</h2>
+<p>Demo database with 5000 colleges generated in coding</p>
+</div>
+<div class="grid" id="collegeList"></div>
+<div class="pagination">
+<button onclick="prevPage()">Previous</button>
+<span id="pageInfo"></span>
+<button onclick="nextPage()">Next</button>
+</div>
+</section>
+
+<section id="courses">
+<div class="title"><h2>Popular Courses</h2></div>
+<div class="grid" id="courseList"></div>
+</section>
+
+<section id="compare">
+<div class="title"><h2>Compare Colleges</h2></div>
+<div class="compare">
+<select id="collegeA"></select>
+<select id="collegeB"></select>
+<button onclick="compareCollege()">Compare</button>
+</div>
+<div class="grid" id="compareResult" style="margin-top:25px"></div>
+</section>
+
+<section>
+<div class="title"><h2>Scholarship Section</h2></div>
+<div class="grid">
+<div class="card"><h3>Merit Scholarship</h3><p>For students with excellent academic marks.</p></div>
+<div class="card"><h3>Need-Based Scholarship</h3><p>Financial help for deserving students.</p></div>
+<div class="card"><h3>Sports Scholarship</h3><p>For students with sports achievements.</p></div>
+<div class="card"><h3>Girl Student Scholarship</h3><p>Special scholarship support for female students.</p></div>
+</div>
+</section>
+
+<section>
+<div class="title"><h2>Blog & News</h2></div>
+<div class="grid">
+<div class="card"><h3>Admission 2026 Updates</h3><p>Latest admission form and counselling updates.</p></div>
+<div class="card"><h3>Top Courses After 12th</h3><p>Explore career-friendly courses after school.</p></div>
+<div class="card"><h3>How to Choose a College?</h3><p>Check placement, fees, reviews, approvals and location.</p></div>
+</div>
+</section>
+
+<section id="admission">
+<div class="title"><h2>Admission Form</h2></div>
+<form onsubmit="submitAdmission(event)">
+<input required placeholder="Full Name">
+<input required type="email" placeholder="Email Address">
+<input required type="tel" placeholder="Phone Number">
+<select required><option>Select Course</option><option>B.Tech</option><option>MBA</option><option>MBBS</option><option>BBA</option><option>B.Com</option></select>
+<input required placeholder="Preferred City">
+<textarea placeholder="Message"></textarea>
+<button>Submit Admission Form</button>
+</form>
+</section>
+
+<section id="login">
+<div class="title"><h2>Student Login</h2></div>
+<form onsubmit="studentLogin(event)" style="max-width:420px">
+<input required type="email" placeholder="Student Email">
+<input required type="password" placeholder="Password">
+<button>Login</button>
+</form>
+</section>
+
+<section>
+<div class="title"><h2>Admin Panel Preview</h2></div>
+<div class="card admin">
+<h3>Admin Dashboard</h3>
+<p>Total Colleges: <b id="adminTotal"></b></p>
+<p>Total Admission Forms: Demo</p>
+<p>Total Students: Demo</p>
+<p>Total Reviews: Demo</p>
+<p>For real admin panel, connect this frontend with Node.js + MongoDB backend.</p>
+</div>
+</section>
+
+<section id="contact">
+<div class="title"><h2>Contact Form</h2></div>
+<form onsubmit="submitContact(event)">
+<input required placeholder="Your Name">
+<input required type="email" placeholder="Your Email">
+<input required placeholder="Subject">
+<textarea required placeholder="Your Message"></textarea>
+<button>Send Message</button>
+</form>
+</section>
+
+<footer>
+<h3>Global Education Connect</h3>
+<p>India’s education discovery portal for colleges, universities and courses.</p>
+<p>© 2026 Global Education Connect. All Rights Reserved.</p>
+</footer>
+
+<script>
+const states = {
+"Andhra Pradesh":["Visakhapatnam","Vijayawada","Guntur","Tirupati"],
+"Arunachal Pradesh":["Itanagar","Naharlagun"],
+"Assam":["Guwahati","Dibrugarh","Silchar"],
+"Bihar":["Patna","Gaya","Muzaffarpur"],
+"Chhattisgarh":["Raipur","Bhilai","Bilaspur"],
+"Goa":["Panaji","Margao"],
+"Gujarat":["Ahmedabad","Surat","Vadodara","Rajkot"],
+"Haryana":["Gurugram","Sonipat","Panipat","Faridabad","Rohtak"],
+"Himachal Pradesh":["Shimla","Solan","Mandi"],
+"Jharkhand":["Ranchi","Jamshedpur","Dhanbad"],
+"Karnataka":["Bengaluru","Mysuru","Mangalore","Hubballi"],
+"Kerala":["Kochi","Thiruvananthapuram","Kozhikode"],
+"Madhya Pradesh":["Bhopal","Indore","Gwalior","Jabalpur"],
+"Maharashtra":["Mumbai","Pune","Nagpur","Nashik"],
+"Manipur":["Imphal"],
+"Meghalaya":["Shillong"],
+"Mizoram":["Aizawl"],
+"Nagaland":["Kohima","Dimapur"],
+"Odisha":["Bhubaneswar","Cuttack","Rourkela"],
+"Punjab":["Ludhiana","Amritsar","Jalandhar"],
+"Rajasthan":["Jaipur","Jodhpur","Udaipur","Kota"],
+"Sikkim":["Gangtok"],
+"Tamil Nadu":["Chennai","Coimbatore","Madurai","Vellore"],
+"Telangana":["Hyderabad","Warangal"],
+"Tripura":["Agartala"],
+"Uttar Pradesh":["Lucknow","Noida","Kanpur","Varanasi","Ghaziabad"],
+"Uttarakhand":["Dehradun","Haridwar","Roorkee"],
+"West Bengal":["Kolkata","Siliguri","Durgapur"],
+"Delhi":["New Delhi"],
+"Jammu and Kashmir":["Srinagar","Jammu"],
+"Ladakh":["Leh"],
+"Chandigarh":["Chandigarh"],
+"Puducherry":["Puducherry"],
+"Andaman and Nicobar Islands":["Port Blair"],
+"Dadra and Nagar Haveli and Daman and Diu":["Daman"],
+"Lakshadweep":["Kavaratti"]
+};
+
+const courses = [
+"B.Tech","M.Tech","MBA","BBA","BCA","MCA","MBBS","BDS","B.Pharm","M.Pharm",
+"B.Sc Nursing","BA","MA","B.Com","M.Com","LLB","LLM","B.Ed","M.Ed","B.Arch",
+"B.Des","M.Des","Hotel Management","BHM","Mass Communication","BJMC","Agriculture",
+"Veterinary Science","Diploma Engineering","Polytechnic","PhD","BPT","MPT"
+];
+
+const categories = [
+"Engineering","Management","Medical","Dental","Pharmacy","Nursing","Arts",
+"Commerce","Science","Law","Education","Design","Architecture","Hotel Management",
+"Mass Communication","Agriculture","Polytechnic"
+];
+
+const approvals = ["UGC","AICTE","NMC","PCI","BCI","NAAC","NBA"];
+const ownership = ["Private","Government","Deemed","Autonomous"];
+const collegeNames = [
+"Global Institute","National College","Royal University","Sunrise Academy",
+"Modern Institute","Capital College","Future University","Bright Career College",
+"Elite Institute","Heritage University","Oxford College","Indian Institute",
+"Shree Education Campus","Arya College","City University","North India College",
+"South India Institute","Central Academy","Himalayan University","Lotus College"
+];
+
+let colleges = [];
+let id = 1;
+
+Object.keys(states).forEach(state=>{
+  states[state].forEach(city=>{
+    for(let i=1;i<=40;i++){
+      let category = categories[(id+i)%categories.length];
+      let course1 = courses[(id+i)%courses.length];
+      let course2 = courses[(id+i+5)%courses.length];
+      let course3 = courses[(id+i+10)%courses.length];
+      colleges.push({
+        id:id,
+        name: collegeNames[id%collegeNames.length] + " of " + category + " " + id,
+        state:state,
+        city:city,
+        category:category,
+        courses:[course1,course2,course3],
+        fees:"₹" + (45 + (id%400)) + "K/year",
+        rating:(3.5 + (id%15)/10).toFixed(1),
+        ownership:ownership[id%ownership.length],
+        approval:approvals[id%approvals.length],
+        placement:"₹" + (3 + (id%18)) + " LPA",
+        admission:"Open",
+        reviews:50 + (id%900)
+      });
+      id++;
+    }
+  });
+});
+
+colleges = colleges.slice(0,5000);
+let filteredColleges = [...colleges];
+let currentPage = 1;
+const perPage = 24;
+
+function fillFilters(){
+  const stateFilter=document.getElementById("stateFilter");
+  Object.keys(states).forEach(s=>{
+    stateFilter.innerHTML += `<option value="${s}">${s}</option>`;
+  });
+
+  const courseFilter=document.getElementById("courseFilter");
+  courses.forEach(c=>{
+    courseFilter.innerHTML += `<option value="${c}">${c}</option>`;
+  });
+
+  fillCities();
+}
+
+document.getElementById("stateFilter").addEventListener("change",fillCities);
+
+function fillCities(){
+  const selected=document.getElementById("stateFilter").value;
+  const cityFilter=document.getElementById("cityFilter");
+  cityFilter.innerHTML='<option value="">All Cities</option>';
+  let cityList=[];
+  if(selected){cityList=states[selected];}
+  else{Object.values(states).forEach(arr=>cityList.push(...arr));}
+  [...new Set(cityList)].forEach(city=>{
+    cityFilter.innerHTML += `<option value="${city}">${city}</option>`;
+  });
+}
+
+function displayColleges(){
+  const list=document.getElementById("collegeList");
+  list.innerHTML="";
+  let start=(currentPage-1)*perPage;
+  let pageData=filteredColleges.slice(start,start+perPage);
+
+  pageData.forEach(c=>{
+    list.innerHTML += `
+    <div class="card">
+      <h3>${c.name}</h3>
+      <p><b>State:</b> ${c.state}</p>
+      <p><b>City:</b> ${c.city}</p>
+      <p><b>Category:</b> ${c.category}</p>
+      <p><b>Courses:</b> ${c.courses.join(", ")}</p>
+      <p><b>Fees:</b> ${c.fees}</p>
+      <p><b>Ownership:</b> ${c.ownership}</p>
+      <p><b>Approval:</b> ${c.approval}</p>
+      <p><b>Placement:</b> ${c.placement}</p>
+      <p class="rating">⭐ ${c.rating}/5</p>
+      <span class="badge">Admission ${c.admission}</span>
+      <span class="badge">${c.reviews} Reviews</span>
+    </div>`;
+  });
+
+  document.getElementById("pageInfo").innerText =
+  `Page ${currentPage} of ${Math.ceil(filteredColleges.length/perPage)} | Showing ${filteredColleges.length} colleges`;
+
+  document.getElementById("totalCollege").innerText=colleges.length;
+  document.getElementById("adminTotal").innerText=colleges.length;
+}
+
+function searchColleges(){
+  const keyword=document.getElementById("keyword").value.toLowerCase();
+  const state=document.getElementById("stateFilter").value;
+  const city=document.getElementById("cityFilter").value;
+  const course=document.getElementById("courseFilter").value;
+
+  filteredColleges=colleges.filter(c=>{
+    return (
+      (c.name.toLowerCase().includes(keyword) ||
+      c.city.toLowerCase().includes(keyword) ||
+      c.state.toLowerCase().includes(keyword) ||
+      c.category.toLowerCase().includes(keyword) ||
+      c.courses.join(" ").toLowerCase().includes(keyword)) &&
+      (state==="" || c.state===state) &&
+      (city==="" || c.city===city) &&
+      (course==="" || c.courses.includes(course))
+    );
+  });
+
+  currentPage=1;
+  displayColleges();
+}
+
+function nextPage(){
+  if(currentPage < Math.ceil(filteredColleges.length/perPage)){
+    currentPage++;
+    displayColleges();
+    window.location.href="#colleges";
+  }
+}
+
+function prevPage(){
+  if(currentPage>1){
+    currentPage--;
+    displayColleges();
+    window.location.href="#colleges";
+  }
+}
+
+function showCourses(){
+  const courseList=document.getElementById("courseList");
+  courses.forEach(c=>{
+    courseList.innerHTML += `
+    <div class="card">
+      <h3>${c}</h3>
+      <p>Explore top colleges, eligibility, fees and admission process for ${c}.</p>
+      <span class="badge">Admission Open</span>
+    </div>`;
+  });
+}
+
+function fillCompare(){
+  const a=document.getElementById("collegeA");
+  const b=document.getElementById("collegeB");
+  colleges.slice(0,100).forEach((c,i)=>{
+    a.innerHTML += `<option value="${i}">${c.name}</option>`;
+    b.innerHTML += `<option value="${i}">${c.name}</option>`;
+  });
+}
+
+function compareCollege(){
+  const a=colleges[document.getElementById("collegeA").value];
+  const b=colleges[document.getElementById("collegeB").value];
+
+  document.getElementById("compareResult").innerHTML=`
+  <div class="card">
+    <h3>${a.name}</h3>
+    <p>State: ${a.state}</p>
+    <p>City: ${a.city}</p>
+    <p>Courses: ${a.courses.join(", ")}</p>
+    <p>Fees: ${a.fees}</p>
+    <p>Rating: ⭐ ${a.rating}</p>
+    <p>Placement: ${a.placement}</p>
+  </div>
+  <div class="card">
+    <h3>${b.name}</h3>
+    <p>State: ${b.state}</p>
+    <p>City: ${b.city}</p>
+    <p>Courses: ${b.courses.join(", ")}</p>
+    <p>Fees: ${b.fees}</p>
+    <p>Rating: ⭐ ${b.rating}</p>
+    <p>Placement: ${b.placement}</p>
+  </div>`;
+}
+
+function submitAdmission(e){
+  e.preventDefault();
+  alert("Admission form submitted successfully!");
+}
+
+function submitContact(e){
+  e.preventDefault();
+  alert("Message sent successfully!");
+}
+
+function studentLogin(e){
+  e.preventDefault();
+  alert("Student login demo successful!");
+}
+
+fillFilters();
+showCourses();
+fillCompare();
+displayColleges();
+</script>
+
+</body>
+  </html>
